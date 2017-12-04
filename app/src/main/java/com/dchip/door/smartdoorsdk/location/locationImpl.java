@@ -2,10 +2,12 @@ package com.dchip.door.smartdoorsdk.location;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.dchip.door.smartdoorsdk.s;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 import com.dchip.door.smartdoorsdk.utils.SysTime;
 
 import static com.dchip.door.smartdoorsdk.SdkInit.locationService;
@@ -23,7 +25,7 @@ public class locationImpl implements LocationManager {
 
     private static final Object lock = new Object();
     private static volatile locationImpl instance;
-
+    private String TAG="locationImpl";
     public static void registerInstance() {
         if (instance == null) {
             synchronized (lock) {
@@ -39,17 +41,22 @@ public class locationImpl implements LocationManager {
     public void startLocation(Activity activity) {
         if(SysTime.getTime().year >2016 && (SysTime.getTime().month+1) >5){
             // -----------location config ------------
-            //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-            locationService.registerListener(mListener);
-            //注册监听
-            int type =activity.getIntent().getIntExtra("from", 0);
-            if (type == 0) {
-                locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-            } else if (type == 1) {
-                locationService.setLocationOption(locationService.getOption());
+            if(locationService != null){
+                //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+                locationService.registerListener(mListener);
+                //注册监听
+                int type =activity.getIntent().getIntExtra("from", 0);
+                if (type == 0) {
+                    locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+                } else if (type == 1) {
+                    locationService.setLocationOption(locationService.getOption());
+                }
+                locationService.start();// 定位SDK
+                // start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+            }else{
+                LogUtil.e(TAG,"###locationImpl == null");
             }
-            locationService.start();// 定位SDK
-            // start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+
         }
     }
 
