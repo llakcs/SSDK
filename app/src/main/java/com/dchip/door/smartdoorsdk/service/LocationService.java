@@ -6,6 +6,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class LocationService {
 			if(client == null){
 				client = new LocationClient(locationContext);
 				client.setLocOption(getDefaultLocationClientOption());
+				LogUtil.e("LocationService","###LocationService()");
 			}
 		}
 	}

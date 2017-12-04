@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
 import com.dchip.door.smartdoorsdk.service.LocationService;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.CrashHandler;
 import com.dchip.door.smartdoorsdk.utils.DPDB;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 import com.dchip.door.smartdoorsdk.video.CMMobHelp;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
@@ -29,17 +31,19 @@ import java.util.Map;
 public class SdkInit {
     public static LocationService locationService;
     private static Vibrator mVibrator;
-
+    private static String TAG="SdkInit";
     public static void onCreate(Application app){
         //创建opencv拍照文件夹
         new File(Constant.VISTPATH).mkdirs();
         //初始化百度定位sdk
         locationService = new LocationService(app.getApplicationContext());
         mVibrator =(Vibrator)app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        LogUtil.e(TAG,"##init.locationservice");
         //video
         CMMobHelp.getInstance().init(app);
         //初始化DPDB
         DPDB.InitDPDbRW(app);
+        LogUtil.e(TAG,"##init.video");
         //初始化bugly
         CrashHandler.getInstance().init(app.getApplicationContext());
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(app.getApplicationContext());
