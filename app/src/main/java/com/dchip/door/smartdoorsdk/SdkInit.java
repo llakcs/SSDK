@@ -9,6 +9,7 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
+import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.service.LocationService;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.CrashHandler;
@@ -39,6 +40,8 @@ public class SdkInit {
         locationService = new LocationService(app.getApplicationContext());
         mVibrator =(Vibrator)app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         LogUtil.e(TAG,"##init.locationservice");
+        //deviceService
+        app.startService(new Intent(app, DeviceService.class));
         //video
         CMMobHelp.getInstance().init(app);
         //初始化DPDB

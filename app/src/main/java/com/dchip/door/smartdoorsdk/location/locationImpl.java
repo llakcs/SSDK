@@ -41,6 +41,7 @@ public class locationImpl implements LocationManager {
     public void startLocation(Activity activity) {
         if(SysTime.getTime().year >2016 && (SysTime.getTime().month+1) >5){
             // -----------location config ------------
+
             if(locationService != null){
                 //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
                 locationService.registerListener(mListener);

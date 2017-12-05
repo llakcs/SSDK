@@ -2,7 +2,8 @@ package com.dchip.door.smartdoorsdk;
 
 import android.app.Application;
 import android.content.Context;
-
+import com.dchip.door.smartdoorsdk.deviceControl.DeviceImpl;
+import com.dchip.door.smartdoorsdk.deviceControl.DeviceManager;
 import com.dchip.door.smartdoorsdk.location.LocationManager;
 import com.dchip.door.smartdoorsdk.location.locationImpl;
 import com.dchip.door.smartdoorsdk.opencv.OpencvImpl;
@@ -12,9 +13,6 @@ import com.dchip.door.smartdoorsdk.video.VideoImpl;
 import com.dchip.door.smartdoorsdk.video.VideoManager;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceImpl;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceManager;
-
-import org.xutils.x;
-
 import java.lang.reflect.Method;
 
 
@@ -78,6 +76,14 @@ public class s {
     }
 
 
+    public static DeviceManager device(){
+        if(Ext.deviceManager == null){
+            DeviceImpl.registerInstance();
+        }
+        return Ext.deviceManager;
+    }
+
+
 
     public static class Ext{
 
@@ -86,6 +92,7 @@ public class s {
         private static VideoManager videoManager;
         private static BDVoiceManager bdVoiceManager;
         private static LocationManager locationManager;
+        private static DeviceManager deviceManager;
         private Ext(){
         }
 
@@ -129,6 +136,10 @@ public class s {
 
         public static void setLocationManager(LocationManager locationManager){
             Ext.locationManager = locationManager;
+        }
+
+        public static void setDeviceManager(DeviceManager deviceManager){
+            Ext.deviceManager = deviceManager;
         }
 
 

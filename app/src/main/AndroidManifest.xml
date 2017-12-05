@@ -77,6 +77,8 @@
             </intent-filter>
         </service>
 
+        <!-- 设置deviceService-->
+        <service android:name=".service.DeviceService"/>
 
         <!-- 设置环信应用的AppKey -->
         <meta-data

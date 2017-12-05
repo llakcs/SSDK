@@ -98,7 +98,10 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
     }
 
-
+    /**
+     * 设置人脸识别几次之后拍照
+     * @param count
+     */
     @Override
     public void setFaceCount(int count) {
         this.FACECOUNT = count;
