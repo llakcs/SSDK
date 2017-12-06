@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
 import com.dchip.door.smartdoorsdk.Bean.DoorOperationModel;
 import com.dchip.door.smartdoorsdk.Bean.HeartBeatModel;
@@ -24,10 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketHandler;
-import static com.dchip.door.smartdoorsdk.event.ServiceEvent.HEART_BEAT;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import static com.dchip.door.smartdoorsdk.event.ServiceEvent.HEART_BEAT;
 
 
 /**
