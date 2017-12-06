@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Vibrator;
-import android.util.Log;
-
+import com.dchip.door.smartdoorsdk.deviceControl.DeviceApi;
+import com.dchip.door.smartdoorsdk.http.RequestHeaderInterceptor;
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
 import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.service.LocationService;
@@ -16,14 +16,18 @@ import com.dchip.door.smartdoorsdk.utils.CrashHandler;
 import com.dchip.door.smartdoorsdk.utils.DPDB;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 import com.dchip.door.smartdoorsdk.video.CMMobHelp;
+import com.dchip.door.smartdoorsdk.voice.TTSHandler;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.liulishuo.filedownloader.util.FileDownloadLog;
 import com.tencent.bugly.crashreport.CrashReport;
-
 import java.io.File;
 import java.net.Proxy;
 import java.util.Map;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by llakcs on 2017/11/29.
@@ -33,6 +37,7 @@ public class SdkInit {
     public static LocationService locationService;
     private static Vibrator mVibrator;
     private static String TAG="SdkInit";
+    public static DeviceApi deviceApi;
     public static void onCreate(Application app){
         //创建opencv拍照文件夹
         new File(Constant.VISTPATH).mkdirs();
@@ -40,13 +45,33 @@ public class SdkInit {
         locationService = new LocationService(app.getApplicationContext());
         mVibrator =(Vibrator)app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         LogUtil.e(TAG,"##init.locationservice");
-        //deviceService
-        app.startService(new Intent(app, DeviceService.class));
+
         //video
         CMMobHelp.getInstance().init(app);
         //初始化DPDB
         DPDB.InitDPDbRW(app);
         LogUtil.e(TAG,"##init.video");
+        //初始化百度语音合成
+        TTSHandler.getInstance(app);
+        //初始化http模块
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                //打印retrofit日志
+                LogUtil.i(TAG,"api_msg:"+message);
+            }
+        });
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)//添加Log拦截器
+                .addInterceptor(new RequestHeaderInterceptor())//注入header
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.serverUrl)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        deviceApi = retrofit.create(DeviceApi.class);
         //初始化bugly
         CrashHandler.getInstance().init(app.getApplicationContext());
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(app.getApplicationContext());

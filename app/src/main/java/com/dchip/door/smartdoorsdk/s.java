@@ -93,6 +93,7 @@ public class s {
         private static BDVoiceManager bdVoiceManager;
         private static LocationManager locationManager;
         private static DeviceManager deviceManager;
+        public static boolean debug;
         private Ext(){
         }
 
@@ -101,7 +102,7 @@ public class s {
          * @param debug
          */
         public static void setDebug(boolean debug) {
-//            s.Ext.debug = debug;
+            Ext.debug = debug;
             if(debug){
                 LogUtil.setLevel(1);
             }else{
