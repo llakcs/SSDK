@@ -3,6 +3,7 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Card;
+import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
@@ -51,7 +52,7 @@ public class CardHandler {
                     if (mcard.operation("FF82000006DCDCDCDCDCDC").replace(" ","").equals("9000") && mcard.operation("FF8800076000").replace(" ","").equals("9000")) {
                         String id = mcard.operation("FFCA000000");
                         LogUtil.d(TAG,"读卡成功：" + id);
-                        DeviceService.getLock().openLock();
+                        s.device().getLock().openLock();
                     }
 //                    Log.w(TAG,"验证B密码:"+mcard.operation("FF82000006CDCDCDCDCDCD"));
 //                    Log.w(TAG,"验证:"+mcard.operation("FF8800076000"));
