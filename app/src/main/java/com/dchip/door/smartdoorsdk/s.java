@@ -9,8 +9,6 @@ import com.dchip.door.smartdoorsdk.location.locationImpl;
 import com.dchip.door.smartdoorsdk.opencv.OpencvImpl;
 import com.dchip.door.smartdoorsdk.opencv.OpencvManager;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
-import com.dchip.door.smartdoorsdk.video.VideoImpl;
-import com.dchip.door.smartdoorsdk.video.VideoManager;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceImpl;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceManager;
 import java.lang.reflect.Method;
@@ -53,14 +51,6 @@ public class s {
         }
         return Ext.opencvManager;
     }
-
-    public static VideoManager video(){
-        if(Ext.videoManager == null){
-            VideoImpl.registerInstance();
-        }
-        return Ext.videoManager;
-    }
-
     public static BDVoiceManager voice(){
         if(Ext.bdVoiceManager == null){
             BDVoiceImpl.registerInstance();
@@ -89,7 +79,6 @@ public class s {
 
         private static Application app;
         private static OpencvManager opencvManager;
-        private static VideoManager videoManager;
         private static BDVoiceManager bdVoiceManager;
         private static LocationManager locationManager;
         private static DeviceManager deviceManager;
@@ -127,9 +116,6 @@ public class s {
             Ext.opencvManager = opencvManager;
         }
 
-        public static void setVideoManager(VideoManager videoManager){
-            Ext.videoManager = videoManager;
-        }
 
         public static void setBDVoiceManager(BDVoiceManager bdVoiceManager){
             Ext.bdVoiceManager = bdVoiceManager;

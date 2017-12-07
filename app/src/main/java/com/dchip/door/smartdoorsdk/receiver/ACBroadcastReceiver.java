@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import com.dchip.door.smartdoorsdk.service.ACWebSocketService;
+import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 import java.util.List;
@@ -39,16 +41,16 @@ public class ACBroadcastReceiver extends BroadcastReceiver {
 //            EventBus.getDefault().post(new InfoEvent(intent.getStringExtra("info")));
         } else if (Intent.ACTION_TIME_TICK.equals(intent.getAction())) {
             LogUtil.e(TAG, "每分钟提示事件");
-//            if (!isServiceRunning(context, ACWebSocketService.class.getName())) {
+            if (!isServiceRunning(context, ACWebSocketService.class.getName())) {
                 //启动长链接服务
-//                EventBus.getDefault().post(new InfoEvent("长链接服务崩溃重启"));
-//                context.startService(new Intent(context,ACWebSocketService.class));
-//            }
-//            if (!isServiceRunning(context, DeviceService.class.getName())) {
-                //启动锁设备交互的服务
+               LogUtil.e(TAG,"长链接服务崩溃重启");
+                context.startService(new Intent(context,ACWebSocketService.class));
+            }
+            if (!isServiceRunning(context, DeviceService.class.getName())) {
+               //启动锁设备交互的服务
 
-//                context.startService(new Intent(context,DeviceService.class));
-//            }
+                context.startService(new Intent(context,DeviceService.class));
+            }
 //            if (!isServiceRunning(context, BluetoothBandService.class.getName())) {
 //                //启动蓝牙的服务
 //                // TODO: 2017/8/17 调试蓝牙时开启

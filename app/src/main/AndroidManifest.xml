@@ -84,7 +84,13 @@
                 <action android:name="com.dchip.action.AC_WEBSOCKET" />
             </intent-filter>
         </service>
-
+        <receiver android:name=".receiver.ACBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.dchip.device.info" />
+                <action android:name="com.dchip.device.updateFail" />
+            </intent-filter>
+        </receiver>
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
