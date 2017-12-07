@@ -9,13 +9,11 @@ import android.os.Vibrator;
 import com.dchip.door.smartdoorsdk.deviceControl.DeviceApi;
 import com.dchip.door.smartdoorsdk.http.RequestHeaderInterceptor;
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
-import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.service.LocationService;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.CrashHandler;
 import com.dchip.door.smartdoorsdk.utils.DPDB;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
-import com.dchip.door.smartdoorsdk.video.CMMobHelp;
 import com.dchip.door.smartdoorsdk.voice.TTSHandler;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
@@ -45,9 +43,6 @@ public class SdkInit {
         locationService = new LocationService(app.getApplicationContext());
         mVibrator =(Vibrator)app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         LogUtil.e(TAG,"##init.locationservice");
-
-        //video
-        CMMobHelp.getInstance().init(app);
         //初始化DPDB
         DPDB.InitDPDbRW(app);
         LogUtil.e(TAG,"##init.video");
