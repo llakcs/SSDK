@@ -8,6 +8,8 @@ import com.dchip.door.smartdoorsdk.location.LocationManager;
 import com.dchip.door.smartdoorsdk.location.locationImpl;
 import com.dchip.door.smartdoorsdk.opencv.OpencvImpl;
 import com.dchip.door.smartdoorsdk.opencv.OpencvManager;
+import com.dchip.door.smartdoorsdk.player.IMPlayer;
+import com.dchip.door.smartdoorsdk.player.MPlayer;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceImpl;
 import com.dchip.door.smartdoorsdk.voice.BDVoiceManager;
@@ -73,6 +75,12 @@ public class s {
         return Ext.deviceManager;
     }
 
+    public static IMPlayer player(){
+        if(Ext.imPlayer == null){
+            MPlayer.registerInstance();
+        }
+        return Ext.imPlayer;
+    }
 
 
     public static class Ext{
@@ -82,6 +90,7 @@ public class s {
         private static BDVoiceManager bdVoiceManager;
         private static LocationManager locationManager;
         private static DeviceManager deviceManager;
+        private static IMPlayer imPlayer;
         public static boolean debug;
         private Ext(){
         }
@@ -127,6 +136,10 @@ public class s {
 
         public static void setDeviceManager(DeviceManager deviceManager){
             Ext.deviceManager = deviceManager;
+        }
+
+        public static void setImPlayerManager(IMPlayer player){
+            Ext.imPlayer = player;
         }
 
 
